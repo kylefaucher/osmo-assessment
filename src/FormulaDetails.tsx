@@ -6,7 +6,7 @@ type FormulaDetailsProps = {
 
 const FormulaDetails = ({ materials }: FormulaDetailsProps) => {
 
-  const totalCost = materials.reduce((sum: number, material:PerfumeMaterial) => sum + material.cost, 0);
+  const totalCost = materials.reduce((sum: number, material:PerfumeMaterial) => sum + material.cost * material.quantity, 0);
 
   return (
     <tr>
