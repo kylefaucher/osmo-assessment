@@ -25,14 +25,14 @@ const App = () => {
 
   const dataFilePath: string = '/osmo-assessment/data.csv';
 
+  // fetch csv data from file, group by formula id, then map to array of perfumeFormulas 
   useEffect(() => {
     fetch(dataFilePath)
       .then((res) => res.text())
       .then((text) => {
         const { data } = Papa.parse<RawParsedDataItem>(text, { header: true });
         const grouped = Object.groupBy(data, row => row.formula_id) as Record<string, RawParsedDataItem[]>;
-        const groupedFormulas: PerfumeFormula[] = Object.entries(grouped).map(
-          ([id, rows]) => ({
+        const groupedFormulas: PerfumeFormula[] = Object.entries(grouped).map(([id, rows]) => ({
             id,
             name: rows[0].formula_name,
             creator: rows[0].creator,
@@ -61,7 +61,7 @@ const App = () => {
   return (
     <>
       <div>
-      <h1>Fragrance Formula Manager</h1>
+      <h1>Fragrance Formulas</h1>
       {
         formulasList==null ? <p>loading...</p> : <FormulasTable formulasList={formulasList}/>
       }

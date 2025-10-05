@@ -9,12 +9,13 @@ type TableHeaderProps = {
 
 const TableHeader = ({sortBy, handleSort}: TableHeaderProps) => {
 
+  // column labels and the sort key they control
   const columns: { label: string; key: keyof PerfumeFormula }[] = [
     { label: "ID", key: "id" },
     { label: "Name", key: "name" },
     { label: "Creator", key: "creator" },
     { label: "Category", key: "category" },
-    { label: "Creation Date", key: "date" },
+    { label: "Date", key: "date" },
     { label: "Notes", key: "notes" },
   ];
 
@@ -29,7 +30,7 @@ const TableHeader = ({sortBy, handleSort}: TableHeaderProps) => {
               <th
                 key={key}
                 onClick={() => handleSort(key)}
-                className="cursor-pointer select-none"
+                className="cursor-pointer"
               >
                 <span>{label}</span>
                 <FontAwesomeIcon

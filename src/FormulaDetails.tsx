@@ -6,6 +6,8 @@ type FormulaDetailsProps = {
 
 const FormulaDetails = ({ materials }: FormulaDetailsProps) => {
 
+  const totalCost = materials.reduce((sum: number, material:PerfumeMaterial) => sum + material.cost, 0);
+
   return (
     <tr>
         <td colSpan={7} style={{padding:0}}>
@@ -14,11 +16,12 @@ const FormulaDetails = ({ materials }: FormulaDetailsProps) => {
                     <tr>
                         <th>Material</th>
                         <th>Type</th>
-                        <th>Quantity (mL)</th>
-                        <th>%</th>
-                        <th>Cost (per mL)</th>
                         <th>Supplier</th>
                         <th>Notes</th>
+                        <th>Quantity</th>
+                        <th>%</th>
+                        <th>Cost / mL</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -26,13 +29,14 @@ const FormulaDetails = ({ materials }: FormulaDetailsProps) => {
                         <tr key={item.name}>
                             <td>{item.name}</td>
                             <td>{item.matType}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.percentage}</td>
-                            <td>{item.cost}</td>
                             <td>{item.supplier}</td>
                             <td>{item.notes}</td>
+                            <td>{item.quantity} mL</td>
+                            <td>{item.percentage}%</td>
+                            <td>{item.cost.toLocaleString("en-US", {style:"currency", currency:"USD"})}</td>
                         </tr>
                     ))}
+                    <tr className="totalCostRow"><td colSpan={7}><strong>Total Cost: {totalCost.toLocaleString("en-US", {style:"currency", currency:"USD"})}</strong></td></tr>
                 </tbody>
             </table>
         </td>

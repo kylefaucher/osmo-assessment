@@ -12,19 +12,21 @@ const FormulasTable = ({ formulasList }: FormulasTableProps) => {
   const [sortBy, setSortBy] = useState<SortConfig>({ value: "id", direction: "asc" });
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+  // update currently expanded state when formula row is clicked
   function handleRowClick(id: string){
     setCurrentlyExpanded(id == currentlyExpanded ? null : id);
   }
 
+  // update searchTerm state when new searchterm entered
   function handleSearchTermUpdate(e: ChangeEvent<HTMLInputElement>){
     setSearchTerm(e.target.value);
   }
 
+  // update sortBy state when table header rows are clicked
   function handleSort (field: keyof PerfumeFormula){
     setSortBy(prev => ({
         value: field,
-        direction:
-        prev.value === field && prev.direction === "asc" ? "desc" : "asc",
+        direction: prev.value === field && prev.direction === "asc" ? "desc" : "asc",
     }));
   }
 
@@ -37,7 +39,7 @@ const FormulasTable = ({ formulasList }: FormulasTableProps) => {
   });
 
   // sort formula list by selected key
-  const sortedFilteredList: PerfumeFormula[] = [...filteredList].sort((a, b) => {
+  const sortedFilteredList: PerfumeFormula[] = filteredList.sort((a, b) => {
     const aVal = a[sortBy.value];
     const bVal = b[sortBy.value];
 
@@ -51,13 +53,13 @@ const FormulasTable = ({ formulasList }: FormulasTableProps) => {
 
   return (
     <>
-        <input type="text" placeholder="search" value={searchTerm} onChange={handleSearchTermUpdate}/>
-        <table>
+        <input type="text" placeholder="search" value={searchTerm} onChange={handleSearchTermUpdate} className="search"/>
+        <table className="formulas-table">
             <TableHeader handleSort={handleSort} sortBy={sortBy}/>
             <tbody>
                 {sortedFilteredList.map((item) => (
                     <Fragment key={item.id}>
-                        <tr onClick={() => handleRowClick(item.id)}>
+                        <tr onClick={() => handleRowClick(item.id)} className="formula-row cursor-pointer">
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.creator}</td>
