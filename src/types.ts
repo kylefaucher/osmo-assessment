@@ -17,3 +17,8 @@ export type PerfumeFormula = {
   notes: string,
   materials: PerfumeMaterial[]
 }
+
+export type SortConfig = {
+  value: keyof PerfumeFormula,
+  direction: "asc" | "desc"
+};

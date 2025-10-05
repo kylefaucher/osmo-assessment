@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import type { PerfumeMaterial } from './types'
 
 type FormulaDetailsProps = {

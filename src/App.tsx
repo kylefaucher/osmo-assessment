@@ -4,6 +4,22 @@ import './App.css'
 import FormulasTable from './FormulasTable'
 import type { PerfumeMaterial, PerfumeFormula} from './types'
 
+type RawParsedDataItem = {
+  formula_id: string;
+  formula_name: string;
+  creator: string;
+  category: string;
+  creation_date: string;
+  notes: string;
+  material_name: string;
+  material_type: string;
+  quantity_ml: string;
+  percentage: string;
+  cost_per_ml: string;
+  supplier: string;
+  material_notes: string;
+};
+
 const App = () => {
   const [formulasList, setFormulasList] = useState<PerfumeFormula[] | null>(null);
 
@@ -13,9 +29,8 @@ const App = () => {
     fetch(dataFilePath)
       .then((res) => res.text())
       .then((text) => {
-        const { data } = Papa.parse(text, { header: true });
-        // TODO: better typing of data / row
-        const grouped = Object.groupBy(data, row => row.formula_id);
+        const { data } = Papa.parse<RawParsedDataItem>(text, { header: true });
+        const grouped = Object.groupBy(data, row => row.formula_id) as Record<string, RawParsedDataItem[]>;
         const groupedFormulas: PerfumeFormula[] = Object.entries(grouped).map(
           ([id, rows]) => ({
             id,
@@ -27,9 +42,9 @@ const App = () => {
             materials: rows.map<PerfumeMaterial>(row => ({
               name: row.material_name,
               matType: row.material_type,
-              quantity: row.quantity_ml,
-              percentage: row.percentage,
-              cost: row.cost_per_ml,
+              quantity: parseFloat(row.quantity_ml),
+              percentage: parseFloat(row.percentage),
+              cost: parseFloat(row.cost_per_ml),
               supplier: row.supplier,
               notes: row.material_notes,
             })),

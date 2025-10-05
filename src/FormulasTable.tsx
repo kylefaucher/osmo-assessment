@@ -1,16 +1,11 @@
 import { useState, Fragment, type ChangeEvent } from 'react'
 import TableHeader from './TableHeader'
 import FormulaDetails from './FormulaDetails'
-import type { PerfumeFormula } from './types'
+import type { PerfumeFormula, SortConfig } from './types'
 
 type FormulasTableProps = {
     formulasList: PerfumeFormula[]
 }
-
-type SortConfig = {
-  value: keyof PerfumeFormula,
-  direction: "asc" | "desc"
-};
 
 const FormulasTable = ({ formulasList }: FormulasTableProps) => {
   const [currentlyExpanded, setCurrentlyExpanded] = useState<string | null>(null);
@@ -23,6 +18,14 @@ const FormulasTable = ({ formulasList }: FormulasTableProps) => {
 
   function handleSearchTermUpdate(e: ChangeEvent<HTMLInputElement>){
     setSearchTerm(e.target.value);
+  }
+
+  function handleSort (field: keyof PerfumeFormula){
+    setSortBy(prev => ({
+        value: field,
+        direction:
+        prev.value === field && prev.direction === "asc" ? "desc" : "asc",
+    }));
   }
 
   // filter formula list by search term (name or notes)
@@ -50,11 +53,11 @@ const FormulasTable = ({ formulasList }: FormulasTableProps) => {
     <>
         <input type="text" placeholder="search" value={searchTerm} onChange={handleSearchTermUpdate}/>
         <table>
-            <TableHeader />
+            <TableHeader handleSort={handleSort} sortBy={sortBy}/>
             <tbody>
                 {sortedFilteredList.map((item) => (
                     <Fragment key={item.id}>
-                        <tr onClick={(e) => handleRowClick(item.id)}>
+                        <tr onClick={() => handleRowClick(item.id)}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                             <td>{item.creator}</td>

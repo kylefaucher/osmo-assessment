@@ -27,6 +27,10 @@ td, th {
   background-color: #dcdcdc;
 }
 
-/* tr:nth-child(even) {
-  background-color: #dddddd;
-} */
+.active-icon{
+  color: black;
+}
+
+.inactive-icon{
+  color: rgb(200, 200, 200);
+}
