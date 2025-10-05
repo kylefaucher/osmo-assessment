@@ -1,6 +1,6 @@
 ## Approach
 
-My approach was to first look at the data file, and determine the type structure that the csv data should map to. I created a type for perfumeFormula, which contains formula-specific values as well as an array of type perfumeMaterial with material-specific values. I then determined which states would be needed, which were the CSV data, search term, sort-by value, and the currently expanded formula.
+My approach was to first look at the data file, and determine the type structure that the csv data should map to. I created a type for perfumeFormula, which contains formula-specific values as well as an array of type perfumeMaterial with material-specific values. I then determined which states would be needed, which were the CSV data, search term, sort-by value, and the currently expanded formula. All other values could be derived from those states.
 
 With more time, I might break down the current FormulasTable component into smaller components to further separate concerns, including a Search component. In the App component, I could also pull the fetching logic into a separate custom hook. 
 
